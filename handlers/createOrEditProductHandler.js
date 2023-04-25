@@ -16,7 +16,7 @@ const createOrEditProduct = async ({
     const userID = await AsyncStorage.getItem("userID");
     const restaurantID = await AsyncStorage.getItem("restaurantID");
     const response = await axios.post(
-      "http://localhost:3000/product/create",
+      "https://api.tarefilfiley.me/product/create",
       {
         item,
         productImage,

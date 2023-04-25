@@ -13,7 +13,7 @@ import * as Sharing from "expo-sharing";
 const MyQRCode = ({ item }) => {
   const qrCodeRef = useRef();
 
-  const restaurantLink = "http://localhost:19006/" + item.link;
+  const restaurantLink = "https://menu.tarefilfiley.me/" + item.link;
 
   const handleDownloadQRCode = async () => {
     try {

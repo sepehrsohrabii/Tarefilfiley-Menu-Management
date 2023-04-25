@@ -62,7 +62,7 @@ const AddEditProductForm = ({ bottomSheet, item, fetchProductData }) => {
   const fetchData = async () => {
     const userID = await AsyncStorage.getItem("userID");
     const restaurantID = await AsyncStorage.getItem("restaurantID");
-    const response = await axios.post("http://localhost:3000/category/all", {
+    const response = await axios.post("https://api.tarefilfiley.me/category/all", {
       userID,
       restaurantID,
     });

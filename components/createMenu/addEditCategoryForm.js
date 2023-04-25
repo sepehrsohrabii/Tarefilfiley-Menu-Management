@@ -37,7 +37,7 @@ const AddEditCategoryForm = ({ fetchData, item, bottomSheet }) => {
         <TouchableOpacity
           style={styles.buttonDelete}
           onPress={async () => {
-            await axios.delete("http://localhost:3000/category/remove", {
+            await axios.delete("https://api.tarefilfiley.me/category/remove", {
               data: {
                 userID: await AsyncStorage.getItem("userID"),
                 restaurantID: await AsyncStorage.getItem("restaurantID"),

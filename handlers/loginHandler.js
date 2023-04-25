@@ -10,7 +10,7 @@ const handleLogin = async ({
   navigation,
 }) => {
   try {
-    const response = await axios.post("http://localhost:3000/login", {
+    const response = await axios.post("https://api.tarefilfiley.me/login", {
       email,
       password,
     });

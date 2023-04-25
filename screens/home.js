@@ -28,7 +28,7 @@ const HomeScreen = () => {
   const [user, setUser] = useState();
   const fetchData = async () => {
     const sessionID = await AsyncStorage.getItem("sessionID");
-    const response = await axios.get("http://localhost:3000/user", {
+    const response = await axios.get("https://api.tarefilfiley.me/user", {
       headers: {
         Authorization: `Bearer ${sessionID}`,
       },

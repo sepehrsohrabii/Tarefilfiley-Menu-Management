@@ -19,7 +19,7 @@ const SingleRestaurantItem = ({ item, fetchRestaurantsData }) => {
         <TouchableOpacity
           style={styles.swipedButton}
           onPress={async () => {
-            await axios.delete("http://localhost:3000/restaurant/remove", {
+            await axios.delete("https://api.tarefilfiley.me/restaurant/remove", {
               data: {
                 userID: await AsyncStorage.getItem("userID"),
                 restaurantID: item._id,

@@ -7,7 +7,7 @@ const userHandler = async () => {
   useEffect(async () => {
     const sessionID = await AsyncStorage.getItem("sessionID");
     if (sessionID) {
-      const response = await axios.get("http://localhost:3000/user", {
+      const response = await axios.get("https://api.tarefilfiley.me/user", {
         headers: {
           Authorization: `Bearer ${sessionID}`,
         },

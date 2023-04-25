@@ -75,7 +75,7 @@ const CreateMenuMainForm = ({
   const fetchProductData = async () => {
     const userID = await AsyncStorage.getItem("userID");
     const restaurantID = await AsyncStorage.getItem("restaurantID");
-    const response = await axios.post("http://localhost:3000/product/all", {
+    const response = await axios.post("https://api.tarefilfiley.me/product/all", {
       userID,
       restaurantID,
     });
@@ -198,7 +198,7 @@ const CreateMenuMainForm = ({
             const userID = await AsyncStorage.getItem("userID");
             const restaurantID = await AsyncStorage.getItem("restaurantID");
             const response = await axios.post(
-              "http://localhost:3000/restaurant/update",
+              "https://api.tarefilfiley.me/restaurant/update",
               {
                 restaurantID: restaurantID,
                 persianName: persianNameState,

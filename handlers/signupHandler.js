@@ -2,7 +2,7 @@ import axios from "axios";
 
 const handleSignup = async ({ name, email, password, setError }) => {
   try {
-    const response = await axios.post("http://localhost:3000/signup", {
+    const response = await axios.post("https://api.tarefilfiley.me/signup", {
       name,
       email,
       password,

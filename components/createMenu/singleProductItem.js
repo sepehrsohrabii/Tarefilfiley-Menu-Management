@@ -19,7 +19,7 @@ const SingleProductItem = ({ item, fetchProductData }) => {
         <TouchableOpacity
           style={styles.swipedButton}
           onPress={async () => {
-            await axios.delete("http://localhost:3000/product/remove", {
+            await axios.delete("https://api.tarefilfiley.me/product/remove", {
               data: {
                 userID: await AsyncStorage.getItem("userID"),
                 restaurantID: await AsyncStorage.getItem("restaurantID"),

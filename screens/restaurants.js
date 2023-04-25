@@ -19,7 +19,7 @@ const Restaurants = () => {
   const fetchUserData = async () => {
     const sessionID = await AsyncStorage.getItem("sessionID");
     if (sessionID) {
-      const response = await axios.get("http://localhost:3000/user", {
+      const response = await axios.get("https://api.tarefilfiley.me/user", {
         headers: {
           Authorization: `Bearer ${sessionID}`,
         },
@@ -30,9 +30,12 @@ const Restaurants = () => {
   };
   const fetchRestaurantsData = async () => {
     const userID = await AsyncStorage.getItem("userID");
-    const response = await axios.post("http://localhost:3000/restaurant/all", {
-      userID,
-    });
+    const response = await axios.post(
+      "https://api.tarefilfiley.me/restaurant/all",
+      {
+        userID,
+      }
+    );
     setRestaurants(response.data);
   };
   return (
@@ -87,7 +90,7 @@ const Restaurants = () => {
           <TouchableOpacity
             onPress={async () => {
               const response = await axios.post(
-                "http://localhost:3000/restaurant/create",
+                "https://api.tarefilfiley.me/restaurant/create",
                 { userID: user.id }
               );
               await AsyncStorage.setItem("restaurantID", response.data);
