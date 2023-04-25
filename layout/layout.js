@@ -12,12 +12,21 @@ const Layout = () => {
         initialRouteName="Home"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: "تره فیلفیلی - منو آنلاین" }}
+        />
 
-        <Stack.Screen name="Restaurants" component={Restaurants} />
+        <Stack.Screen
+          name="Restaurants"
+          component={Restaurants}
+          options={{ title: "منو ها" }}
+        />
         <Stack.Screen
           name="CreateMenu"
           component={CreateMenu}
+          options={{ title: "ساخت منو" }}
           initialParams={{
             persianName: "",
             englishName: "",
