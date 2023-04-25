@@ -1,1 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="food"><path fill="none" stroke="#303c42" stroke-linecap="round" stroke-linejoin="round" d="M3.5 15C3.5 10 7.32.49 12 .49S20.5 10 20.5 15a8.5 8.5 0 0 1-17 0Z" data-name="Egg 3"></path></svg>
+<svg xmlns="http://www.w3.org/2000/svg" id="food" viewBox="0 0 24 24"><path fill="none" stroke="#303c42" stroke-linecap="round" stroke-linejoin="round" d="M3.5 15C3.5 10 7.32.49 12 .49S20.5 10 20.5 15a8.5 8.5 0 0 1-17 0Z" data-name="Egg 3"/></svg>
