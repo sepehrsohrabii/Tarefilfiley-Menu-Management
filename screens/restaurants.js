@@ -1,21 +1,35 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styled from "styled-components/native";
 import RestaurantsList from "../components/restaurantsList";
 import theme from "../config/theme";
-import { useNavigation } from "@react-navigation/native";
+import {
+  useNavigation,
+  useFocusEffect,
+  useIsFocused,
+} from "@react-navigation/native";
 import { Icon } from "@rneui/themed";
 
 const Restaurants = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState();
   const navigation = useNavigation();
   const [restaurants, setRestaurants] = useState([]);
+  const isFocused = useIsFocused();
   useEffect(() => {
-    fetchUserData();
-    fetchRestaurantsData();
-  }, []);
+    if (isFocused) {
+      fetchUserData();
+      fetchRestaurantsData();
+    }
+  }, [isFocused]);
   const fetchUserData = async () => {
     const sessionID = await AsyncStorage.getItem("sessionID");
     if (sessionID) {
@@ -75,38 +89,60 @@ const Restaurants = () => {
         <SubTitle>مدیریت مجموعه ها</SubTitle>
       </View>
       <Padding>
-        <View>
-          {user ? (
-            <View style={styles.flexBox2}>
-              <Text style={styles.welcomeText}>
-                {user.name} عزیز خوش آمدید!
-              </Text>
+        {user ? (
+          <View>
+            <View>
+              <View style={styles.flexBox2}>
+                <Text style={styles.welcomeText}>
+                  {user.name} عزیز خوش آمدید!
+                </Text>
+              </View>
             </View>
-          ) : (
-            <Text>Loading...</Text>
-          )}
-        </View>
-        <View style={styles.flexBox}>
-          <TouchableOpacity
-            onPress={async () => {
-              const response = await axios.post(
-                "https://api.tarefilfiley.me/restaurant/create",
-                { userID: user.id }
-              );
-              await AsyncStorage.setItem("restaurantID", response.data);
-              navigation.navigate("CreateMenu");
-            }}
-          >
-            <View style={styles.addRestaurant}>
-              <Icon type="material" name="add" color={theme.colors.white} />
+
+            <View style={styles.flexBox}>
+              {isLoading ? (
+                <TouchableOpacity onPress={(req, res) => {}}>
+                  <View style={styles.addRestaurant}>
+                    <ActivityIndicator
+                      size="small"
+                      color={theme.colors.three}
+                    />
+                  </View>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={async () => {
+                    setIsLoading(true);
+                    const response = await axios.post(
+                      "https://api.tarefilfiley.me/restaurant/create",
+                      { userID: user.id }
+                    );
+                    await AsyncStorage.setItem("restaurantID", response.data);
+                    setIsLoading(false);
+                    navigation.navigate("CreateMenu");
+                  }}
+                >
+                  <View style={styles.addRestaurant}>
+                    <Icon
+                      type="material"
+                      name="add"
+                      color={theme.colors.white}
+                    />
+                  </View>
+                </TouchableOpacity>
+              )}
+              <Text style={styles.title}>مجموعه‌ها</Text>
             </View>
-          </TouchableOpacity>
-          <Text style={styles.title}>مجموعه‌ها</Text>
-        </View>
-        <RestaurantsList
-          restaurants={restaurants}
-          fetchRestaurantsData={fetchRestaurantsData}
-        />
+            <RestaurantsList
+              restaurants={restaurants}
+              fetchRestaurantsData={fetchRestaurantsData}
+            />
+          </View>
+        ) : (
+          <View style={styles.indicator}>
+            <ActivityIndicator size="large" color={theme.colors.one} />
+          </View>
+        )}
       </Padding>
     </Container>
   );
@@ -143,7 +179,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
-    paddingTop: "40px",
     shadowColor: "#000000",
     shadowOffset: {
       width: -1,
@@ -197,7 +232,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 30,
+    marginTop: 20,
     marginHorizontal: 30,
   },
   backButton: {
@@ -215,6 +250,11 @@ const styles = StyleSheet.create({
     elevation: 11,
     justifyContent: "center",
     alignItems: "center",
+  },
+  indicator: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 60,
   },
 });
 export default Restaurants;

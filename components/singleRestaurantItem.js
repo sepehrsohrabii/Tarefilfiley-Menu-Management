@@ -1,5 +1,12 @@
-import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { ListItem, Icon } from "@rneui/themed";
 import theme from "../config/theme";
 import { useNavigation } from "@react-navigation/native";
@@ -8,6 +15,7 @@ import axios from "axios";
 import QRCodeSheet from "./qrCodeSheet";
 
 const SingleRestaurantItem = ({ item, fetchRestaurantsData }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
   return (
     <ListItem.Swipeable
@@ -16,25 +24,54 @@ const SingleRestaurantItem = ({ item, fetchRestaurantsData }) => {
       rightWidth={90}
       minSlideWidth={0}
       leftContent={() => (
-        <TouchableOpacity
-          style={styles.swipedButton}
-          onPress={async () => {
-            await axios.delete("https://api.tarefilfiley.me/restaurant/remove", {
-              data: {
-                userID: await AsyncStorage.getItem("userID"),
-                restaurantID: item._id,
-              },
-            });
-            fetchRestaurantsData();
-          }}
-        >
-          <Icon
-            type="material"
-            name="delete-forever"
-            color={theme.colors.four}
-            size={40}
-          />
-        </TouchableOpacity>
+        <View>
+          {isLoading ? (
+            <TouchableOpacity
+              style={styles.swipedButton}
+              onPress={async () => {
+                setIsLoading(true);
+                await axios.delete(
+                  "https://api.tarefilfiley.me/restaurant/remove",
+                  {
+                    data: {
+                      userID: await AsyncStorage.getItem("userID"),
+                      restaurantID: item._id,
+                    },
+                  }
+                );
+                fetchRestaurantsData();
+                setIsLoading(false);
+              }}
+            >
+              <ActivityIndicator size="small" color={theme.colors.four} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.swipedButton}
+              onPress={async () => {
+                setIsLoading(true);
+                await axios.delete(
+                  "https://api.tarefilfiley.me/restaurant/remove",
+                  {
+                    data: {
+                      userID: await AsyncStorage.getItem("userID"),
+                      restaurantID: item._id,
+                    },
+                  }
+                );
+                fetchRestaurantsData();
+                setIsLoading(false);
+              }}
+            >
+              <Icon
+                type="material"
+                name="delete-forever"
+                color={theme.colors.four}
+                size={40}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
       )}
       rightContent={() => {
         return (

@@ -6,6 +6,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import styled from "styled-components/native";
 import theme from "../config/theme";
@@ -13,8 +14,9 @@ import { CheckBox } from "@rneui/themed";
 import handleLogin from "../handlers/loginHandler";
 
 const LoginForm = ({ loginSheet, signupSheet, fetchData, navigation }) => {
-  const [email, onChangeEmail] = useState("jadid@gmail.com");
-  const [password, onChangePassword] = useState("SepiSepi");
+  const [isLoading, setIsLoading] = useState(false);
+  const [email, onChangeEmail] = useState("");
+  const [password, onChangePassword] = useState("");
   const [checked, setChecked] = useState(true);
   const toggleCheckbox = () => setChecked(!checked);
   const [error, setError] = useState("");
@@ -55,21 +57,30 @@ const LoginForm = ({ loginSheet, signupSheet, fetchData, navigation }) => {
         checkedColor={theme.colors.one}
         title="مرا بخاطر بسپار."
       />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={(req, res) => {
-          handleLogin({
-            email,
-            password,
-            setError,
-            loginSheet,
-            fetchData,
-            navigation,
-          });
-        }}
-      >
-        <ButtonText>ورود</ButtonText>
-      </TouchableOpacity>
+      {isLoading ? (
+        <TouchableOpacity style={styles.button} onPress={(req, res) => {}}>
+          <ActivityIndicator size="small" color={theme.colors.three} />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={(req, res) => {
+            setIsLoading(true);
+            handleLogin({
+              email,
+              password,
+              setError,
+              loginSheet,
+              fetchData,
+              navigation,
+            });
+            setIsLoading(false);
+          }}
+        >
+          <ButtonText>ورود</ButtonText>
+        </TouchableOpacity>
+      )}
+
       <View style={styles.signupFlexBox}>
         <TouchableOpacity
           style={styles.signUpText}

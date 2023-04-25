@@ -10,16 +10,16 @@ import {
 import styled from "styled-components/native";
 import theme from "../config/theme";
 import { CheckBox } from "@rneui/themed";
-import { useNavigation } from "@react-navigation/native";
 import handleSignup from "../handlers/signupHandler";
 
-const SignUpForm = ({ loginSheet, signupSheet }) => {
+const SignUpForm = ({ loginSheet, signupSheet, fetchData, navigation }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [name, onChangeName] = useState("");
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
   const [checked, setChecked] = useState(true);
   const toggleCheckbox = () => setChecked(!checked);
-  const navigation = useNavigation();
   const [error, setError] = useState("");
 
   return (
@@ -67,17 +67,30 @@ const SignUpForm = ({ loginSheet, signupSheet }) => {
         checkedColor={theme.colors.one}
         title="با قوانین و مقررات پلتفرم تره فیلفیلی موافقم."
       />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={async () => {
-          await handleSignup({ name, email, password, setError });
-
-          // navigation.navigate("Restaurants");
-          // bottomSheet.current.close();
-        }}
-      >
-        <ButtonText>ثبت نام</ButtonText>
-      </TouchableOpacity>
+      {isLoading ? (
+        <TouchableOpacity style={styles.button} onPress={(req, res) => {}}>
+          <ActivityIndicator size="small" color={theme.colors.three} />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={async () => {
+            setIsLoading(true);
+            await handleSignup({
+              name,
+              email,
+              password,
+              setError,
+              signupSheet,
+              fetchData,
+              navigation,
+            });
+            setIsLoading(false);
+          }}
+        >
+          <ButtonText>ثبت نام</ButtonText>
+        </TouchableOpacity>
+      )}
       <View style={styles.signupFlexBox}>
         <TouchableOpacity
           style={styles.signUpText}

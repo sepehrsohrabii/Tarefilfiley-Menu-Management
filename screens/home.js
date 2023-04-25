@@ -86,7 +86,7 @@ const HomeScreen = () => {
           },
           container: {
             backgroundColor: theme.colors.white,
-            paddingHorizontal: 60,
+            paddingHorizontal: 30,
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
             shadowColor: "#000",
@@ -121,7 +121,7 @@ const HomeScreen = () => {
           },
           container: {
             backgroundColor: theme.colors.white,
-            paddingHorizontal: 60,
+            paddingHorizontal: 30,
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
             shadowColor: "#000",
@@ -142,8 +142,8 @@ const HomeScreen = () => {
         <SignUpForm
           loginSheet={loginRefRBSheet}
           signupSheet={signupRefRBSheet}
-          user={user}
-          setUser={setUser}
+          fetchData={fetchData}
+          navigation={navigation}
         />
       </RBSheet>
     </Container>
@@ -181,10 +181,10 @@ const SubTitle = styled.Text`
   color: ${theme.colors.three};
 `;
 const Paragraph2 = styled.Text`
-  font-family: ${theme.typography.paragraph2.fontFamily};
-  font-size: ${theme.typography.paragraph2.fontSize};
+  font-family: ${theme.typography.paragraph3.fontFamily};
+  font-size: ${theme.typography.paragraph3.fontSize};
   color: ${theme.colors.white};
-  text-align: justify;
+  // text-align: justify;
   line-height: 25px;
   margin-top: 10%;
 `;

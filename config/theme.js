@@ -5,7 +5,7 @@ loadFont();
 const theme = {
   typography: {
     heading1: {
-      fontSize: "64px",
+      fontSize: "48px",
       fontFamily: "IS_Bold",
     },
     heading2: {
@@ -33,11 +33,11 @@ const theme = {
       fontFamily: "IS",
     },
     subTitle: {
-      fontSize: "18px",
+      fontSize: "16px",
       fontFamily: "IS",
     },
     subTitle_M: {
-      fontSize: "18px",
+      fontSize: "16px",
       fontFamily: "IS_Medium",
     },
     paragraph1: {

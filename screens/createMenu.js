@@ -1,25 +1,12 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import theme from "../config/theme";
 import CreateMenuMainForm from "../components/createMenu/createMenuMainForm";
 import { useNavigation } from "@react-navigation/native";
 import { Icon } from "@rneui/themed";
 const CreateMenu = ({ route }) => {
-  const {
-    persianName,
-    englishName,
-    link,
-    img,
-    logo,
-    phone,
-    hours,
-    fetchRestaurantsData,
-  } = route.params;
+  const { persianName, englishName, link, img, logo, phone, hours } =
+    route.params;
   const navigation = useNavigation();
   return (
     <Container>
@@ -65,7 +52,6 @@ const CreateMenu = ({ route }) => {
         logo={logo}
         phone={phone}
         hours={hours}
-        fetchRestaurantsData={fetchRestaurantsData}
       />
     </Container>
   );
@@ -97,7 +83,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
-    paddingTop: "40px",
+    paddingTop: "20px",
     shadowColor: "#000000",
     shadowOffset: {
       width: -1,
@@ -111,7 +97,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 30,
+    marginTop: 0,
     marginHorizontal: 30,
   },
   backButton: {

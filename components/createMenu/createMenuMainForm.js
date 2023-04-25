@@ -27,7 +27,6 @@ const CreateMenuMainForm = ({
   logo,
   phone,
   hours,
-  fetchRestaurantsData,
 }) => {
   const navigation = useNavigation();
   const [persianNameState, onChangePersianName] = useState(persianName || "");
@@ -75,10 +74,13 @@ const CreateMenuMainForm = ({
   const fetchProductData = async () => {
     const userID = await AsyncStorage.getItem("userID");
     const restaurantID = await AsyncStorage.getItem("restaurantID");
-    const response = await axios.post("https://api.tarefilfiley.me/product/all", {
-      userID,
-      restaurantID,
-    });
+    const response = await axios.post(
+      "https://api.tarefilfiley.me/product/all",
+      {
+        userID,
+        restaurantID,
+      }
+    );
     setDataList(response.data);
   };
   return (
@@ -211,7 +213,6 @@ const CreateMenuMainForm = ({
                 userID: userID,
               }
             );
-            fetchRestaurantsData();
             navigation.navigate("Restaurants");
           }}
         >
