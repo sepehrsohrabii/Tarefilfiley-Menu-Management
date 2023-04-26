@@ -7,6 +7,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import styled from "styled-components/native";
 import theme from "../../config/theme";
@@ -23,6 +24,8 @@ const AddEditCategoryForm = ({ fetchData, item, bottomSheet }) => {
   const [categoryName, onChangeCategoryName] = useState(title);
   const [error, setError] = useState("");
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
   return (
     <SafeAreaView>
       <Label>نام دسته‌بندی</Label>
@@ -34,40 +37,62 @@ const AddEditCategoryForm = ({ fetchData, item, bottomSheet }) => {
         inputMode="text"
       />
       <View style={styles.buttonBox}>
-        <TouchableOpacity
-          style={styles.buttonDelete}
-          onPress={async () => {
-            await axios.delete("https://api.tarefilfiley.me/category/remove", {
-              data: {
-                userID: await AsyncStorage.getItem("userID"),
-                restaurantID: await AsyncStorage.getItem("restaurantID"),
-                categoryID: item._id,
-              },
-            });
-            bottomSheet.current.close();
-            fetchData();
-          }}
-        >
-          <Icon
-            type="material"
-            name="delete-forever"
-            color={theme.colors.white}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            createOrEditCategory({
-              title,
-              categoryName,
-              bottomSheet,
-              setError,
-              fetchData,
-            });
-          }}
-        >
-          <ButtonText>ثبت</ButtonText>
-        </TouchableOpacity>
+        {isLoading ? (
+          <TouchableOpacity
+            style={styles.buttonDelete}
+            onPress={async () => {}}
+          >
+            <ActivityIndicator size="small" color={theme.colors.three} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.buttonDelete}
+            onPress={async () => {
+              setIsLoading(true);
+              await axios.delete(
+                "https://api.tarefilfiley.me/category/remove",
+                {
+                  data: {
+                    userID: await AsyncStorage.getItem("userID"),
+                    restaurantID: await AsyncStorage.getItem("restaurantID"),
+                    categoryID: item._id,
+                  },
+                }
+              );
+              setIsLoading(false);
+              bottomSheet.current.close();
+              fetchData();
+            }}
+          >
+            <Icon
+              type="material"
+              name="delete-forever"
+              color={theme.colors.white}
+            />
+          </TouchableOpacity>
+        )}
+        {isLoadingSubmit ? (
+          <TouchableOpacity style={styles.button} onPress={() => {}}>
+            <ActivityIndicator size="small" color={theme.colors.three} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              setIsLoadingSubmit(true);
+              createOrEditCategory({
+                title,
+                categoryName,
+                bottomSheet,
+                setError,
+                fetchData,
+              });
+              setIsLoadingSubmit(false);
+            }}
+          >
+            <ButtonText>ثبت</ButtonText>
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );

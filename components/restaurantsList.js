@@ -2,6 +2,7 @@ import React from "react";
 import { FlatList, View } from "react-native";
 import SingleRestaurantItem from "./singleRestaurantItem";
 
+
 const RestaurantsList = ({ restaurants, fetchRestaurantsData }) => {
   return (
     <View>

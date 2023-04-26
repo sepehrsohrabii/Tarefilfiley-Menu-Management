@@ -1,16 +1,19 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   Platform,
+  ActivityIndicator,
+  Linking,
 } from "react-native"; // Import Platform from react-native
 import QRCode from "react-native-qrcode-svg";
 import theme from "../config/theme";
 import * as Sharing from "expo-sharing";
-
+import { Icon } from "@rneui/themed";
 const MyQRCode = ({ item }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const qrCodeRef = useRef();
 
   const restaurantLink = "https://menu.tarefilfiley.me/" + item.link;
@@ -32,6 +35,14 @@ const MyQRCode = ({ item }) => {
       console.error(error);
     }
   };
+  const handleOpenMenuLink = async () => {
+    const supported = await Linking.canOpenURL(restaurantLink);
+    if (supported) {
+      await Linking.openURL(restaurantLink);
+    } else {
+      window.open(restaurantLink, "_blank");
+    }
+  };
 
   return (
     <View style={{ alignItems: "center" }}>
@@ -50,14 +61,45 @@ const MyQRCode = ({ item }) => {
           getRef={qrCodeRef}
         />
       </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          handleDownloadQRCode();
-        }}
-      >
-        <Text style={styles.buttonText}>دانلود فایل کیو آر کد</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        {isLoading ? (
+          <TouchableOpacity style={styles.buttonDL} onPress={() => {}}>
+            <ActivityIndicator size="small" color={theme.colors.three} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.buttonDL}
+            onPress={() => {
+              setIsLoading(true);
+              handleDownloadQRCode();
+              setIsLoading(false);
+            }}
+          >
+            <Text style={styles.buttonText}>دانلود QRCode</Text>
+            <Icon
+              type="ionicon"
+              name="cloud-download-outline"
+              color={theme.colors.white}
+              size={24}
+            />
+          </TouchableOpacity>
+        )}
+        <View style={{ flex: 0.1 }}></View>
+        <TouchableOpacity
+          style={styles.buttonLink}
+          onPress={() => {
+            handleOpenMenuLink();
+          }}
+        >
+          <Text style={styles.buttonLinkText}>لینک منو</Text>
+          <Icon
+            type="feather"
+            name="external-link"
+            color={theme.colors.one}
+            size={24}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -67,7 +109,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     borderWidth: 0,
-    borderRadius: 30,
+    borderRadius: 20,
     padding: 30,
     borderColor: theme.colors.one,
     shadowColor: "#000",
@@ -79,26 +121,54 @@ const styles = StyleSheet.create({
     shadowRadius: 6.68,
     elevation: 11,
   },
-  button: {
+  buttonContainer: {
+    flexDirection: "row",
+    marginTop: 10,
+    justifyContent: "space-between",
+    width: "100%",
+    padding: 35,
+  },
+  buttonDL: {
     backgroundColor: theme.colors.one,
+    flex: 1,
     borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    shadowColor: "#000000",
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 3,
+      height: 2,
     },
-    shadowOpacity: 0.17,
-    shadowRadius: 3.05,
-    elevation: 4,
-    marginTop: 50,
+    shadowOpacity: 0.36,
+    shadowRadius: 6.68,
+    elevation: 11,
   },
   buttonText: {
     fontFamily: theme.typography.subTitle_M.fontFamily,
     fontSize: theme.typography.subTitle_M.fontSize,
     color: theme.colors.white,
     textAlign: "center",
+  },
+  buttonLinkText: {
+    fontFamily: theme.typography.subTitle_M.fontFamily,
+    fontSize: theme.typography.subTitle_M.fontSize,
+    color: theme.colors.one,
+    textAlign: "center",
+  },
+  buttonLink: {
+    backgroundColor: theme.colors.three,
+    flex: 1,
+    borderRadius: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.36,
+    shadowRadius: 6.68,
+    elevation: 11,
   },
 });
 export default MyQRCode;

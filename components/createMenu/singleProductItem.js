@@ -1,5 +1,12 @@
-import React, { useRef } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
+import React, { useRef, useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { ListItem, Icon } from "@rneui/themed";
 import theme from "../../config/theme";
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -8,6 +15,8 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SingleProductItem = ({ item, fetchProductData }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const refEditProductSheet = useRef();
   return (
     <ListItem.Swipeable
@@ -16,26 +25,42 @@ const SingleProductItem = ({ item, fetchProductData }) => {
       rightWidth={90}
       minSlideWidth={0}
       leftContent={() => (
-        <TouchableOpacity
-          style={styles.swipedButton}
-          onPress={async () => {
-            await axios.delete("https://api.tarefilfiley.me/product/remove", {
-              data: {
-                userID: await AsyncStorage.getItem("userID"),
-                restaurantID: await AsyncStorage.getItem("restaurantID"),
-                productID: item._id,
-              },
-            });
-            fetchProductData();
-          }}
-        >
-          <Icon
-            type="material"
-            name="delete-forever"
-            color={theme.colors.four}
-            size={40}
-          />
-        </TouchableOpacity>
+        <View>
+          {isLoading ? (
+            <TouchableOpacity
+              style={styles.swipedButton}
+              onPress={async () => {}}
+            >
+              <ActivityIndicator size="small" color={theme.colors.four} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.swipedButton}
+              onPress={async () => {
+                setIsLoading(true);
+                await axios.delete(
+                  "https://api.tarefilfiley.me/product/remove",
+                  {
+                    data: {
+                      userID: await AsyncStorage.getItem("userID"),
+                      restaurantID: await AsyncStorage.getItem("restaurantID"),
+                      productID: item._id,
+                    },
+                  }
+                );
+                fetchProductData();
+                setIsLoading(false);
+              }}
+            >
+              <Icon
+                type="material"
+                name="delete-forever"
+                color={theme.colors.four}
+                size={40}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
       )}
       rightContent={() => {
         return (

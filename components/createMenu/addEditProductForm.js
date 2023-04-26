@@ -8,6 +8,7 @@ import {
   View,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import styled from "styled-components/native";
@@ -32,6 +33,7 @@ const AddEditProductForm = ({ bottomSheet, item, fetchProductData }) => {
     category = item.category;
   }
   const [productImage, setProductImage] = useState(image);
+  const [isLoading, setIsLoading] = useState(false);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -62,10 +64,13 @@ const AddEditProductForm = ({ bottomSheet, item, fetchProductData }) => {
   const fetchData = async () => {
     const userID = await AsyncStorage.getItem("userID");
     const restaurantID = await AsyncStorage.getItem("restaurantID");
-    const response = await axios.post("https://api.tarefilfiley.me/category/all", {
-      userID,
-      restaurantID,
-    });
+    const response = await axios.post(
+      "https://api.tarefilfiley.me/category/all",
+      {
+        userID,
+        restaurantID,
+      }
+    );
     setAllCats(response.data);
   };
   return (
@@ -155,36 +160,32 @@ const AddEditProductForm = ({ bottomSheet, item, fetchProductData }) => {
         inputMode="numeric"
       />
       <View style={styles.buttonBox}>
-        <TouchableOpacity
-          style={styles.buttonDelete2}
-          onPress={() => {
-            bottomSheet.current.close();
-          }}
-        >
-          <Icon
-            type="material"
-            name="delete-forever"
-            color={theme.colors.white}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            createOrEditProduct({
-              bottomSheet,
-              item,
-              productImage,
-              productTitle,
-              productDescription,
-              productPrice,
-              productCategory,
-              setError,
-              fetchProductData,
-            });
-          }}
-        >
-          <ButtonText>ثبت</ButtonText>
-        </TouchableOpacity>
+        {isLoading ? (
+          <TouchableOpacity style={styles.button} onPress={() => {}}>
+            <ActivityIndicator size="small" color={theme.colors.three} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              setIsLoading(true);
+              createOrEditProduct({
+                bottomSheet,
+                item,
+                productImage,
+                productTitle,
+                productDescription,
+                productPrice,
+                productCategory,
+                setError,
+                fetchProductData,
+              });
+              setIsLoading(false);
+            }}
+          >
+            <ButtonText>ثبت</ButtonText>
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );

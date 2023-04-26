@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
@@ -29,6 +30,8 @@ const CreateMenuMainForm = ({
   hours,
 }) => {
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [persianNameState, onChangePersianName] = useState(persianName || "");
   const [englishNameState, onChangeEnglishName] = useState(englishName || "");
   const [linkState, setLink] = useState(link || "");
@@ -194,30 +197,41 @@ const CreateMenuMainForm = ({
           fetchProductData={fetchProductData}
           bottomSheet={refProductSheet}
         />
-        <TouchableOpacity
-          style={styles.saveButton}
-          onPress={async (req, res) => {
-            const userID = await AsyncStorage.getItem("userID");
-            const restaurantID = await AsyncStorage.getItem("restaurantID");
-            const response = await axios.post(
-              "https://api.tarefilfiley.me/restaurant/update",
-              {
-                restaurantID: restaurantID,
-                persianName: persianNameState,
-                englishName: englishNameState,
-                link: linkState,
-                img: imageState,
-                logo: logoState,
-                phone: phoneState,
-                hours: clocksState,
-                userID: userID,
-              }
-            );
-            navigation.navigate("Restaurants");
-          }}
-        >
-          <SaveButtonText>ذخیره</SaveButtonText>
-        </TouchableOpacity>
+        {isLoading ? (
+          <TouchableOpacity
+            style={styles.saveButton}
+            onPress={async (req, res) => {}}
+          >
+            <ActivityIndicator size="small" color={theme.colors.three} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.saveButton}
+            onPress={async (req, res) => {
+              const userID = await AsyncStorage.getItem("userID");
+              const restaurantID = await AsyncStorage.getItem("restaurantID");
+              setIsLoading(true);
+              const response = await axios.post(
+                "https://api.tarefilfiley.me/restaurant/update",
+                {
+                  restaurantID: restaurantID,
+                  persianName: persianNameState,
+                  englishName: englishNameState,
+                  link: linkState,
+                  img: imageState,
+                  logo: logoState,
+                  phone: phoneState,
+                  hours: clocksState,
+                  userID: userID,
+                }
+              );
+              setIsLoading(false);
+              navigation.navigate("Restaurants");
+            }}
+          >
+            <SaveButtonText>ذخیره</SaveButtonText>
+          </TouchableOpacity>
+        )}
       </Padding>
     </SafeAreaView>
   );
