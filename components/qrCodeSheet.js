@@ -1,11 +1,6 @@
 import RBSheet from "react-native-raw-bottom-sheet";
 import React, { useRef } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import theme from "../config/theme";
 import { Icon } from "@rneui/themed";
 import MyQRCode from "../handlers/convertToQRCode";
@@ -32,7 +27,7 @@ const QRCodeSheet = ({ item }) => {
           },
           container: {
             backgroundColor: theme.colors.white,
-            paddingHorizontal: 60,
+            paddingHorizontal: 40,
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
             shadowColor: "#000",

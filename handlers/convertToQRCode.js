@@ -123,10 +123,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    marginTop: 10,
+    marginTop: 30,
     justifyContent: "space-between",
     width: "100%",
-    padding: 35,
   },
   buttonDL: {
     backgroundColor: theme.colors.one,
