@@ -64,9 +64,9 @@ const LoginForm = ({ loginSheet, signupSheet, fetchData, navigation }) => {
       ) : (
         <TouchableOpacity
           style={styles.button}
-          onPress={(req, res) => {
+          onPress={async (req, res) => {
             setIsLoading(true);
-            handleLogin({
+            await handleLogin({
               email,
               password,
               setError,
