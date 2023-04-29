@@ -49,25 +49,51 @@ const CreateMenuMainForm = ({
   };
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+    const result = await ImagePicker.launchImageLibraryAsync();
+
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      const { uri } = result;
+
+      const resizedImage = await ImageManipulator.manipulateAsync(
+        uri,
+        [{ resize: { width: 500 } }],
+        { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+      );
+      setImage(resizedImage.uri);
+      // Now you can upload the resizedImage to your server or use it in your app
     }
+    // let result = await ImagePicker.launchImageLibraryAsync({
+    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
+    //   allowsEditing: true,
+    //   aspect: [4, 3],
+    //   quality: 1,
+    // });
+    // if (!result.canceled) {
+    //   setImage(result.assets[0].uri);
+    // }
   };
   const pickLogo = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+    // let result = await ImagePicker.launchImageLibraryAsync({
+    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
+    //   allowsEditing: true,
+    //   aspect: [4, 3],
+    //   quality: 1,
+    // });
+    // if (!result.canceled) {
+    //   setLogo(result.assets[0].uri);
+    // }
+    const result = await ImagePicker.launchImageLibraryAsync();
+
     if (!result.canceled) {
-      setLogo(result.assets[0].uri);
+      const { uri } = result;
+
+      const resizedImage = await ImageManipulator.manipulateAsync(
+        uri,
+        [{ resize: { width: 500 } }],
+        { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+      );
+      setLogo(resizedImage.uri);
+      // Now you can upload the resizedImage to your server or use it in your app
     }
   };
   const [dataList, setDataList] = useState([]);
