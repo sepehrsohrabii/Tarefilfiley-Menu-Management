@@ -11,6 +11,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
 import theme from "../../config/theme";
 import * as ImagePicker from "expo-image-picker";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import { Icon } from "@rneui/themed";
 import CategoryList from "./categoryList";
 import ProductList from "./productList";
@@ -52,12 +53,12 @@ const CreateMenuMainForm = ({
     const result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.canceled) {
-      const { uri } = result;
+      const { uri, type } = result;
 
-      const resizedImage = await ImageManipulator.manipulateAsync(
+      const resizedImage = await manipulateAsync(
         uri,
         [{ resize: { width: 500 } }],
-        { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+        { compress: 0.7, format: type }
       );
       setImage(resizedImage.uri);
       // Now you can upload the resizedImage to your server or use it in your app
@@ -85,12 +86,12 @@ const CreateMenuMainForm = ({
     const result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.canceled) {
-      const { uri } = result;
+      const { uri, type } = result;
 
-      const resizedImage = await ImageManipulator.manipulateAsync(
+      const resizedImage = await manipulateAsync(
         uri,
         [{ resize: { width: 500 } }],
-        { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+        { compress: 0.7, format: type }
       );
       setLogo(resizedImage.uri);
       // Now you can upload the resizedImage to your server or use it in your app
