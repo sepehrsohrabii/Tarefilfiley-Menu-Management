@@ -16,7 +16,7 @@ const MyQRCode = ({ item }) => {
   const [isLoading, setIsLoading] = useState(false);
   const qrCodeRef = useRef();
 
-  const restaurantLink = "https://menu.tarefilfiley.me/" + item.link;
+  const restaurantLink = `https://menu.tarefilfiley.me/?restaurantLink=${item.link}`;
 
   const handleDownloadQRCode = async () => {
     try {
