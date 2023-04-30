@@ -51,50 +51,26 @@ const CreateMenuMainForm = ({
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync();
-
     if (!result.canceled) {
       const { uri, type } = result;
-
       const resizedImage = await manipulateAsync(
         uri,
-        [{ resize: { width: 500 } }],
-        { compress: 0.7, format: type }
+        [{ resize: { width: 900 } }],
+        { compress: 0.5, format: type }
       );
       setImage(resizedImage.uri);
-      // Now you can upload the resizedImage to your server or use it in your app
     }
-    // let result = await ImagePicker.launchImageLibraryAsync({
-    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
-    //   allowsEditing: true,
-    //   aspect: [4, 3],
-    //   quality: 1,
-    // });
-    // if (!result.canceled) {
-    //   setImage(result.assets[0].uri);
-    // }
   };
   const pickLogo = async () => {
-    // let result = await ImagePicker.launchImageLibraryAsync({
-    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
-    //   allowsEditing: true,
-    //   aspect: [4, 3],
-    //   quality: 1,
-    // });
-    // if (!result.canceled) {
-    //   setLogo(result.assets[0].uri);
-    // }
     const result = await ImagePicker.launchImageLibraryAsync();
-
     if (!result.canceled) {
       const { uri, type } = result;
-
       const resizedImage = await manipulateAsync(
         uri,
-        [{ resize: { width: 500 } }],
-        { compress: 0.7, format: type }
+        [{ resize: { width: 900 } }],
+        { compress: 0.5, format: type }
       );
       setLogo(resizedImage.uri);
-      // Now you can upload the resizedImage to your server or use it in your app
     }
   };
   const [dataList, setDataList] = useState([]);
