@@ -39,7 +39,8 @@
     "react-native-view-shot": "3.5.0",
     "react-native-web": "~0.18.10",
     "styled-components": "^5.3.9",
-    "expo-image-manipulator": "~11.1.1"
+    "expo-image-manipulator": "~11.1.1",
+    "expo-dev-client": "~2.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

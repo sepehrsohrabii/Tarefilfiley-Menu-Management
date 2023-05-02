@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import styled from "styled-components/native";
 import theme from "../../config/theme";
 import createOrEditProduct from "../../handlers/createOrEditProductHandler";
@@ -36,14 +37,15 @@ const AddEditProductForm = ({ bottomSheet, item, fetchProductData }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+    const result = await ImagePicker.launchImageLibraryAsync();
     if (!result.canceled) {
-      setProductImage(result.assets[0].uri);
+      const { uri, type } = result;
+      const resizedImage = await manipulateAsync(
+        uri,
+        [{ resize: { width: 500 } }],
+        { compress: 0.5, format: type }
+      );
+      setProductImage(resizedImage.uri);
     }
   };
   const [error, setError] = useState("");

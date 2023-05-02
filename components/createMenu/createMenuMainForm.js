@@ -55,8 +55,8 @@ const CreateMenuMainForm = ({
       const { uri, type } = result;
       const resizedImage = await manipulateAsync(
         uri,
-        [{ resize: { width: 900 } }],
-        { compress: 0.5, format: type }
+        [{ resize: { width: 1080 } }],
+        { compress: 0.3, format: type }
       );
       setImage(resizedImage.uri);
     }
@@ -214,7 +214,7 @@ const CreateMenuMainForm = ({
               const userID = await AsyncStorage.getItem("userID");
               const restaurantID = await AsyncStorage.getItem("restaurantID");
               setIsLoading(true);
-              const response = await axios.post(
+              await axios.post(
                 "https://api.tarefilfiley.me/restaurant/update",
                 {
                   restaurantID: restaurantID,
