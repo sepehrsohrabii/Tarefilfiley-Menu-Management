@@ -6,6 +6,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import styled from "styled-components/native";
 import theme from "../config/theme";
